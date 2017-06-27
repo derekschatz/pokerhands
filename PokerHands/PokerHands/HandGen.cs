@@ -7,28 +7,13 @@ namespace PokerHands
     public class HandGen
     {
         Random rand = new Random();
-        Dictionary<string, int> numberMapping = new Dictionary<string, int>
-            {
-                { "2", 2 },
-                { "3", 3 },
-                { "4", 4 },
-                { "5", 5 },
-                { "6", 6 },
-                { "7", 7 },
-                { "8", 8 },
-                { "9", 9 },
-                { "T", 10 },
-                { "J", 11 },
-                { "Q", 12 },
-                { "K", 13 },
-                { "A", 14 }
-            };
+        
 
         public IList<Card[]> Generate(Deck deck)
         {
             Card[] Sort(Card[] cards)
             {
-                return cards.OrderBy(card => numberMapping[card.Value]).ToArray();
+                return cards.OrderBy(card => NumberMapper.NumberMapping[card.Value]).ToArray();
             }
             
             var knownCards = deck.Cards.ToList();

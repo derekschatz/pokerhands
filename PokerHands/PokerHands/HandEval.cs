@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace PokerHands
 {
+    
     public class HandEval
     {
         private List<string> numbers = Deck.OrderedNumbers.ToList();
@@ -16,12 +17,14 @@ namespace PokerHands
 
             if (matchCount == 4)
             {
-                return allSuitAreSame ? new HandValue(9, cards) : new HandValue(5, cards);
+                return allSuitAreSame ?
+                    new HandValue(HandType.StraightFlush, cards) 
+                    : new HandValue(HandType.Straight, cards);
             }
 
             if (allSuitAreSame)
             {
-                return new HandValue(6, cards);
+                return new HandValue(HandType.Flush, cards);
             }
 
             var numbersAreSame = cards.GroupBy(e => e.Value);
@@ -32,30 +35,30 @@ namespace PokerHands
 
             if (isThreeOfAKind && numberOfPairs == 1)
             {
-                return new HandValue(7, cards);
+                return new HandValue(HandType.FullHouse, cards);
             }
 
             if (numberOfPairs == 1)
             {
-                return new HandValue(2, cards);
+                return new HandValue(HandType.Pair, cards);
             }
 
             if (numberOfPairs == 2)
             {
-                return new HandValue(3, cards);
+                return new HandValue(HandType.TwoPair, cards);
             }
 
             if (numbersAreSame.Count(pairs => pairs.Count() == 4) == 1)
             {
-                return new HandValue(8, cards);
+                return new HandValue(HandType.FourOfAKind, cards);
             }
 
             if (isThreeOfAKind)
             {
-                return new HandValue(4, cards);
+                return new HandValue(HandType.ThreeOfAKind, cards);
             }
 
-            return new HandValue(1, cards);
+            return new HandValue(HandType.HighCard, cards);
         }
 
         private int GetMatchCount(Card[] cards)

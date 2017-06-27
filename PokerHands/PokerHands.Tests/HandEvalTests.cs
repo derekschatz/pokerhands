@@ -24,7 +24,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(simpleStraightFlush);
 
-            Assert.AreEqual(9, hand.HandType);
+            Assert.AreEqual(HandType.StraightFlush, hand.HandType);
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(complexStraightFlush);
 
-            Assert.AreEqual(9, hand.HandType);
+            Assert.AreEqual(HandType.StraightFlush, hand.HandType);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(complexStraightFlush);
 
-            Assert.AreNotEqual(9, hand.HandType);
+            Assert.AreNotEqual(HandType.StraightFlush, hand.HandType);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(complexStraightFlush);
 
-            Assert.AreNotEqual(9, hand.HandType);
+            Assert.AreNotEqual(HandType.StraightFlush, hand.HandType);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(8, hand.HandType);
+            Assert.AreEqual(HandType.FourOfAKind, hand.HandType);
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(8, hand.HandType);
+            Assert.AreEqual(HandType.FourOfAKind, hand.HandType);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreNotEqual(8, hand.HandType);
+            Assert.AreNotEqual(HandType.FourOfAKind, hand.HandType);
         }
 
         [TestMethod]
@@ -143,7 +143,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(2, hand.HandType);
+            Assert.AreEqual(HandType.Pair, hand.HandType);
         }
 
         [TestMethod]
@@ -159,7 +159,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(3, hand.HandType);
+            Assert.AreEqual(HandType.TwoPair, hand.HandType);
         }
 
         [TestMethod]
@@ -175,7 +175,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(4, hand.HandType);
+            Assert.AreEqual(HandType.ThreeOfAKind, hand.HandType);
         }
 
         [TestMethod]
@@ -191,7 +191,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(5, hand.HandType);
+            Assert.AreEqual(HandType.Straight, hand.HandType);
         }
 
         [TestMethod]
@@ -207,7 +207,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(6, hand.HandType);
+            Assert.AreEqual(HandType.Flush, hand.HandType);
         }
 
         [TestMethod]
@@ -223,7 +223,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(7, hand.HandType);
+            Assert.AreEqual(HandType.FullHouse, hand.HandType);
         }
 
         [TestMethod]
@@ -239,7 +239,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(1, hand.HandType);
+            Assert.AreEqual(HandType.HighCard, hand.HandType);
         }
     }
 }
