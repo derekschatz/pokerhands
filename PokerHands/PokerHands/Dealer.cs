@@ -6,7 +6,9 @@ namespace PokerHands
     {
         public static WinningHand DetermineWinner(HandValue hand1, HandValue hand2)
         {
-            if(hand1.HandType == HandType.HighCard && hand2.HandType == HandType.HighCard)
+            var handOfPlayer1 = hand1.HandType;
+            var handOfPlayer2 = hand2.HandType;
+            if (handOfPlayer1 == HandType.HighCard && handOfPlayer2 == HandType.HighCard)
             {
                 for(int i = 4; i >= 0; i--)
                 {
@@ -23,7 +25,20 @@ namespace PokerHands
                     }
                 }
             }
-            throw new NotImplementedException();
+            if(handOfPlayer1 == HandType.Pair && handOfPlayer2 == HandType.HighCard)
+            {
+                return new WinningHand(hand1, Winner.Player1);
+            }
+            if(handOfPlayer2 == HandType.Pair && handOfPlayer1 == HandType.HighCard)
+            {
+                return new WinningHand(hand2, Winner.Player2);
+            }
+
+            if(handOfPlayer1 == HandType.Pair && handOfPlayer2 == HandType.Pair)
+            {
+                
+            }
+            return WinningHand.Draw;
         }
 
     }

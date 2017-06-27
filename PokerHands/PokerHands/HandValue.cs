@@ -9,10 +9,10 @@ namespace PokerHands
 
         public Card[] Cards { get; }
 
-        public HandValue(HandType handType, Card[] cards)
+        public HandValue(HandType handType, Card[] cards, string highCard=null)
         {
             HandType = handType;
-            HighCard = cards.Last().Value;
+            HighCard = highCard ?? cards.Last().Value;
             Cards = cards;
         }
     }
