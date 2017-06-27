@@ -9,7 +9,9 @@ namespace PokerHands.Tests
     [TestClass]
     public class HandGeneratorTests
     {
-        Deck cardDeck= new Deck();
+        Deck cardDeck = new Deck();
+
+        List<string> orderedCardSequence = Deck.OrderedNumbers.ToList();
 
         [TestMethod]
         public void GeneratingCards_Produce_2_Hands_With_5_Cards()
@@ -32,16 +34,43 @@ namespace PokerHands.Tests
 
             var hashSet = new HashSet<Card>();
 
-            foreach(var hand in hands)
+            foreach (var hand in hands)
             {
-                foreach(var card in hand)
+                foreach (var card in hand)
                 {
-                    Assert.IsTrue(hashSet.Add(card), 
+                    Assert.IsTrue(hashSet.Add(card),
                         "new card value should not already be present in the hand");
                 }
             }
 
             Assert.AreEqual(10, hashSet.Count);
         }
+
+        [TestMethod]
+        public void Hands_Should_Have_Cards_In_Order()
+        {
+            var sut = new HandGen();
+
+            var hands = sut.Generate(cardDeck);
+
+            foreach (var hand in hands)
+            {                 
+                var currentPositions = 
+                    hand.Select(card =>
+                            orderedCardSequence.IndexOf(card.Value))
+                        .ToArray();
+
+                var expectedOrder = currentPositions.ToList();
+                expectedOrder.Sort();
+                
+               for(var i =0; i < currentPositions.Length; i++)
+                {
+                    Assert.AreEqual(orderedCardSequence[expectedOrder[i]],
+                        orderedCardSequence[currentPositions[i]], $"Values should be equal at index {i}");
+                }
+
+            }
+        }
+
     }
 }

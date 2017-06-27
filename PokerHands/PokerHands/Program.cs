@@ -14,25 +14,4 @@ namespace PokerHands
 
         }
     }
-
-    public enum Suit
-    {
-        S,
-        H,
-        D,
-        C
-    }
-    public class CardIdentifier
-    {
-        public Card cardReader(string input)
-        {
-            throw new NotImplementedException();
-        }
-    }
-   
-
-    public class HandEval
-    {
-
-    }
 }

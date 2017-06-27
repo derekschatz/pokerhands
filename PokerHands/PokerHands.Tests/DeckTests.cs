@@ -25,7 +25,7 @@ namespace PokerHands.Tests
             var sut = new Deck();
             var visitedSuits = new[] { Suit.C, Suit.D, Suit.H, Suit.S }.ToList();
 
-            var grouping = sut.Cards.GroupBy(e => e.suit);
+            var grouping = sut.Cards.GroupBy(e => e.Suit);
 
             Assert.AreEqual(4, grouping.Count());
 
@@ -35,7 +35,7 @@ namespace PokerHands.Tests
 
                 foreach(var card in cardGrouping)
                 {
-                     Assert.IsTrue(allowableNumbers.Remove(card.value),"no value should be duplicated or not part of standard set");
+                     Assert.IsTrue(allowableNumbers.Remove(card.Value),"no value should be duplicated or not part of standard set");
                 }
 
                 Assert.AreEqual(0, allowableNumbers.Count);
