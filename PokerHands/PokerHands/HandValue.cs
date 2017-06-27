@@ -1,14 +1,20 @@
-﻿namespace PokerHands
+﻿using System.Linq;
+
+namespace PokerHands
 {
+    
     public class HandValue
     {
        public int HandType { get; }
        public string HighCard { get; }
 
-        public HandValue(int handType, string highCard)
+        public Card[] Cards { get; }
+
+        public HandValue(int handType,Card[] cards)
         {
             HandType = handType;
-            HighCard = highCard;
+            HighCard = cards.Last().Value;
+            Cards = cards;
         }
 
 
