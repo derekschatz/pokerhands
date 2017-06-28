@@ -187,17 +187,34 @@ namespace PokerHands.Tests
             var hand2 = new HandValue(HandType.TwoPair, new[]{
                  new Card(Suit.C,"3"),
                 new Card(Suit.D,"3"),
-                new Card(Suit.H,"6"),
+                new Card(Suit.H,"4"),
                 new Card(Suit.C,"6"),
+                new Card(Suit.D,"2") });
+
+            var res = Dealer.DetermineWinner(hand1, hand2);
+
+            Assert.AreEqual(Winner.Player2, res.Winner);
+        }
+        [TestMethod]
+        public void TwoPairWinsOverTwoPairWhenOneHigherPairIsGreater()
+        {
+            var hand1 = new HandValue(HandType.TwoPair, new[]{
+                 new Card(Suit.C,"2"),
+                new Card(Suit.D,"Q"),
+                new Card(Suit.H,"Q"),
+                new Card(Suit.C,"A"),
+                new Card(Suit.D,"A") });
+
+            var hand2 = new HandValue(HandType.TwoPair, new[]{
+                 new Card(Suit.C,"3"),
+                new Card(Suit.D,"K"),
+                new Card(Suit.H,"K"),
+                new Card(Suit.C,"A"),
                 new Card(Suit.D,"A") });
 
             var res = Dealer.DetermineWinner(hand1, hand2);
 
             Assert.AreEqual(Winner.Player2, res.Winner);
-
-
-
         }
-
     }
 }

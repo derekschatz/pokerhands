@@ -37,7 +37,7 @@ namespace PokerHands
             //if both hand 1 and hand 2 have a pair 
             if (hand1.HandType == HandType.Pair && hand2.HandType == HandType.Pair)
             {
-                for (int i = 4; i >= 1; i--)
+                for (int i = 4; i > 0; i--)
                 {
 
                     int highestUnpaired1 = NumberMapper.NumberMapping[hand1.Cards[i].Value]; ;
@@ -106,7 +106,21 @@ namespace PokerHands
             {
                 return new WinningHand(hand2, Winner.Player2);
             }
-           
+            //Two Pair vs Two Pair
+            if (hand1.HandType == HandType.TwoPair && hand2.HandType == HandType.TwoPair)
+            {
+                for(int i = 4; i > 0; i--)
+                {
+                    int highestTwoPairValue;
+                    if(hand1.Cards[i].Value == hand1.Cards[i-1].Value)
+                    {
+                        highestTwoPairValue = NumberMapper.NumberMapping[hand1.Cards[i].Value];
+                    }
+                    
+                }
+            }
+
+
             return WinningHand.Draw;
         }
 
