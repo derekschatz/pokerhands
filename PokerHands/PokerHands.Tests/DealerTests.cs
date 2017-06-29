@@ -5,6 +5,7 @@ namespace PokerHands.Tests
     [TestClass]
     public class DealerTests
     {
+        /*
         [TestMethod]
         public void HighCardWinsOverHighCardBasedOnHighestCardValue()
         {
@@ -216,5 +217,6 @@ namespace PokerHands.Tests
 
             Assert.AreEqual(Winner.Player2, res.Winner);
         }
+        */
     }
 }

@@ -14,51 +14,60 @@ namespace PokerHands
             int matchCount = GetMatchCount(cards);
 
             var allSuitAreSame = cards.All(c => c.Suit == cards[0].Suit);
-
+            
             if (matchCount == 4)
             {
                 return allSuitAreSame ?
-                    new HandValue(HandType.StraightFlush, cards) 
-                    : new HandValue(HandType.Straight, cards);
+                  (HandValue)  new StraightFlushHand(cards) 
+                    : new StraightHand(cards);
             }
 
             if (allSuitAreSame)
             {
-                return new HandValue(HandType.Flush, cards);
+                return new FlushHand(cards);
             }
 
             var numbersAreSame = cards.GroupBy(e => e.Value);
 
-            var numberOfPairs = numbersAreSame.Count(pairs => pairs.Count() == 2);
+            var doubles = numbersAreSame.Where(pairs => pairs.Count() == 2).ToArray();
 
-            var isThreeOfAKind = numbersAreSame.Count(pairs => pairs.Count() == 3) == 1;
+            var triples = numbersAreSame.Where(pairs => pairs.Count() == 3).ToArray();
 
-            if (isThreeOfAKind && numberOfPairs == 1)
+            var quadruples = numbersAreSame.Where(pairs => pairs.Count() == 4).ToArray();
+
+            if (triples.Length ==1 && doubles.Length == 1)
             {
-                return new HandValue(HandType.FullHouse, cards);
+                Card[] foundTriple = triples.First().ToArray();
+                Card[] foundDouble = doubles.First().ToArray();
+                return new FullHouseHand(cards, foundTriple,foundDouble);
             }
 
-            if (numberOfPairs == 1)
+            if (doubles.Length == 1)
             {
-                return new HandValue(HandType.Pair, cards);
+                Card[] foundDouble = doubles.First().ToArray();
+                return new PairHand(cards, foundDouble);
             }
 
-            if (numberOfPairs == 2)
+            if (doubles.Length == 2)
             {
-                return new HandValue(HandType.TwoPair, cards);
+                Card[] foundLowestPair = doubles.First().ToArray();
+                Card[] foundHighestPair = doubles.Last().ToArray();
+                return new TwoPairHand(cards, foundHighestPair, foundLowestPair);
             }
 
-            if (numbersAreSame.Count(pairs => pairs.Count() == 4) == 1)
+            if (quadruples.Length == 1)
             {
-                return new HandValue(HandType.FourOfAKind, cards);
+                Card[] foundQuad = quadruples.First().ToArray();
+                return new FourOfAKindHand(cards, foundQuad);
             }
 
-            if (isThreeOfAKind)
+            if (triples.Length ==1)
             {
-                return new HandValue(HandType.ThreeOfAKind, cards);
+                Card[] foundTriple = triples.First().ToArray();
+                return new ThreeOfAKindHand(cards, foundTriple);
             }
-
-            return new HandValue(HandType.HighCard, cards);
+            
+            return new HighCardHand(cards);
         }
 
         private int GetMatchCount(Card[] cards)

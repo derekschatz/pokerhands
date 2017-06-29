@@ -2,19 +2,16 @@
 
 namespace PokerHands
 {
-    public class HandValue
+    public abstract class HandValue
     {
-        public HandType HandType { get; }
-        public string HighCard { get; }
-
-
         public Card[] Cards { get; }
 
-        public HandValue(HandType handType, Card[] cards, string highCard=null)
+        public Card HighCard { get; }
+
+        public HandValue(Card[] cards)
         {
-            HandType = handType;
-            HighCard = highCard ?? cards.Last().Value;
             Cards = cards;
+            HighCard = cards.Last();
         }
     }
 }

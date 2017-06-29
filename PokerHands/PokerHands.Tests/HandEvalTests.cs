@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PokerHands.Tests
@@ -24,7 +25,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(simpleStraightFlush);
 
-            Assert.AreEqual(HandType.StraightFlush, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(StraightFlushHand));
         }
 
         [TestMethod]
@@ -41,41 +42,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(complexStraightFlush);
 
-            Assert.AreEqual(HandType.StraightFlush, hand.HandType);
-        }
-
-        [TestMethod]
-        public void CanDetermineWhenNotAStraightFlushDueToSuit()
-        {
-            var complexStraightFlush = new[]
-            {
-                new Card(Suit.C,"9"),
-                new Card(Suit.D,"T"),
-                new Card(Suit.C,"J"),
-                new Card(Suit.S,"Q"),
-                new Card(Suit.H,"K"),
-            };
-
-            var hand = _sut.Evaluate(complexStraightFlush);
-
-            Assert.AreNotEqual(HandType.StraightFlush, hand.HandType);
-        }
-
-        [TestMethod]
-        public void CanDetermineWhenNotAStraightFlushDueToValue()
-        {
-            var complexStraightFlush = new[]
-            {
-                new Card(Suit.C,"T"),
-                new Card(Suit.C,"T"),
-                new Card(Suit.C,"J"),
-                new Card(Suit.C,"A"),
-                new Card(Suit.C,"K"),
-            };
-
-            var hand = _sut.Evaluate(complexStraightFlush);
-
-            Assert.AreNotEqual(HandType.StraightFlush, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(StraightFlushHand));
         }
 
         [TestMethod]
@@ -92,7 +59,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.FourOfAKind, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(FourOfAKindHand));
         }
 
         [TestMethod]
@@ -109,24 +76,16 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.FourOfAKind, hand.HandType);
-        }
+            Assert.IsInstanceOfType(hand, typeof(FourOfAKindHand));
 
-        [TestMethod]
-        public void CanDetermineWhenNotAFourOfAKind()
-        {
-            var cards = new[]
-            {
-                 new Card(Suit.C,"K"),
+            var four = hand as FourOfAKindHand;
+
+            AreCardSetEqual(new[] {
                 new Card(Suit.D,"K"),
-                new Card(Suit.H,"3"),
+                new Card(Suit.H,"K"),
                 new Card(Suit.S,"K"),
-                new Card(Suit.H,"A"),
-            };
-
-            var hand = _sut.Evaluate(cards);
-
-            Assert.AreNotEqual(HandType.FourOfAKind, hand.HandType);
+                new Card(Suit.H,"K"),
+            }, four.QuadSet);
         }
 
         [TestMethod]
@@ -143,23 +102,44 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.Pair, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(PairHand));
+
+            var pair = hand as PairHand;
+
+            AreCardSetEqual(new[]           {
+                new Card(Suit.C, "K"),
+                new Card(Suit.D, "K")},
+                pair.PairSet
+                );
         }
 
         [TestMethod]
         public void CanDetermineTwoPair()
         {
             var cards = new[]{
-                 new Card(Suit.C,"K"),
-                new Card(Suit.D,"K"),
+                new Card(Suit.H,"2"),
                 new Card(Suit.H,"3"),
                 new Card(Suit.S,"3"),
-                new Card(Suit.H,"2"),
+                 new Card(Suit.C,"K"),
+                new Card(Suit.D,"K"),
             };
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.TwoPair, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(TwoPairHand));
+
+            var twoPair = hand as TwoPairHand;
+
+            AreCardSetEqual(
+                new[] {new Card(Suit.C,"K"),
+                new Card(Suit.D,"K")}, twoPair.HighestPair
+                );
+
+            AreCardSetEqual(
+                new[] {
+                new Card(Suit.H,"3"),
+                new Card(Suit.S,"3")},
+                twoPair.LowestPair);
         }
 
         [TestMethod]
@@ -175,7 +155,16 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.ThreeOfAKind, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(ThreeOfAKindHand));
+
+            var three = hand as ThreeOfAKindHand;
+
+            AreCardSetEqual(
+                new[]{
+                new Card(Suit.D,"3"),
+                new Card(Suit.H,"3"),
+                new Card(Suit.S,"3")
+            }, three.TripleSet);
         }
 
         [TestMethod]
@@ -191,7 +180,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.Straight, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(StraightHand));
         }
 
         [TestMethod]
@@ -207,7 +196,7 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.Flush, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(FlushHand));
         }
 
         [TestMethod]
@@ -223,7 +212,23 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.FullHouse, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(FullHouseHand));
+
+            var fullHouse = hand as FullHouseHand;
+
+            Card[] threeOfAKind = fullHouse.ThreeOfAKindCards;
+            AreCardSetEqual(new[]{
+                 new Card(Suit.C,"3"),
+                new Card(Suit.D,"3"),
+                new Card(Suit.H,"3") }
+                , threeOfAKind);
+
+
+            Card[] pair = fullHouse.PairSet;
+            AreCardSetEqual(new[]{
+                 new Card(Suit.C,"T"),
+                new Card(Suit.D,"T") }, pair);
+
         }
 
         [TestMethod]
@@ -239,7 +244,16 @@ namespace PokerHands.Tests
 
             var hand = _sut.Evaluate(cards);
 
-            Assert.AreEqual(HandType.HighCard, hand.HandType);
+            Assert.IsInstanceOfType(hand, typeof(HighCardHand));
+        }
+
+
+        void AreCardSetEqual(Card[] a, Card[] b)
+        {
+            Assert.AreEqual(
+               string.Join(",", a.Select(e => e.ToString())),
+               string.Join(",", b.Select(e => e.ToString()))
+               );
         }
     }
 }

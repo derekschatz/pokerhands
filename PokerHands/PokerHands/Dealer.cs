@@ -6,6 +6,7 @@ namespace PokerHands
     {
         public static WinningHand DetermineWinner(HandValue hand1, HandValue hand2)
         {
+            /*
             if (hand1.HandType == HandType.HighCard && hand2.HandType == HandType.HighCard)
             {
                 for (int i = 4; i >= 0; i--)
@@ -112,14 +113,19 @@ namespace PokerHands
                 for(int i = 4; i > 0; i--)
                 {
                     int highestTwoPairValue;
+                    int highCardValue;
                     if(hand1.Cards[i].Value == hand1.Cards[i-1].Value)
                     {
                         highestTwoPairValue = NumberMapper.NumberMapping[hand1.Cards[i].Value];
                     }
+                    if(hand1.Cards[i].Value != hand1.Cards[i - 1].Value)
+                    {
+                        highCardValue = NumberMapper.NumberMapping[hand1.Cards[i].Value];
+                    }
                     
                 }
             }
-
+            */
 
             return WinningHand.Draw;
         }
