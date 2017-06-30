@@ -10,7 +10,7 @@
 
         private WinningHand()
         {
-
+            Winner = Winner.Draw;
         }
 
         public static WinningHand Draw = new WinningHand();

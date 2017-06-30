@@ -4,7 +4,7 @@
     {
         public Card[] PairSet { get; }
 
-        public PairHand(Card[] cards, Card []  pair) : base(cards)
+        public PairHand(Card[] cards, Card[] pair) : base(cards)
         {
             PairSet = pair;
         }
