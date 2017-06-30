@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PokerHands
 {
@@ -6,11 +8,10 @@ namespace PokerHands
     {
         static void Main(string[] args)
         {
-            Deck newDeck = new Deck();
-            foreach(Card c in newDeck.Cards)
-            {
-                Console.WriteLine(c); 
-            }
+           var newDeck = new HandGen();
+
+            
+
 
         }
     }
